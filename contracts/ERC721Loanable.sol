@@ -9,6 +9,12 @@ import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
  * @dev If you have questions, go to https://twitter.com/unknown_gakusei.
  */
 abstract contract ERC721Loanable is ERC721 {
+    event Lend(
+        uint256 indexed _tokenId,
+        uint256 _deadline,
+        address _trueOwner,
+        address _borrower
+    );
     // Struct representing lending information
     struct Lending {
         address trueOwner;
@@ -24,6 +30,10 @@ abstract contract ERC721Loanable is ERC721 {
     // Mapping from token ID to Lending infomation.
     mapping(uint256 => Lending) private _tokenIdToLending;
 
+    function lendingInfo(uint256 tokenId) public view returns (Lending memory) {
+        return _tokenIdToLending[tokenId];
+    }
+
     /**
      * @dev Lend token ID token to `to` for a period of `period`.
      */
@@ -38,8 +48,15 @@ abstract contract ERC721Loanable is ERC721 {
                 _tokenIdToLending[tokenId].borrower != _msgSender(),
             "ERC721Loanable: lend caller is not true owner"
         );
-        _tokenIdToLending[tokenId] = Lending(_msgSender(), to, tokenId, period);
+
+        _tokenIdToLending[tokenId] = Lending(
+            _msgSender(),
+            to,
+            tokenId,
+            period + block.timestamp
+        );
         _safeTransfer(_msgSender(), to, tokenId, "");
+        emit Lend(tokenId, period + block.timestamp, _msgSender(), to);
     }
 
     /**
