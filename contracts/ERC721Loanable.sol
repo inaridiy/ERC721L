@@ -17,6 +17,10 @@ abstract contract ERC721Loanable is ERC721 {
         uint256 deadline;
     }
 
+    constructor(string memory name_, string memory symbol_)
+        ERC721(name_, symbol_)
+    {}
+
     // Mapping from token ID to Lending infomation.
     mapping(uint256 => Lending) private _tokenIdToLending;
 
