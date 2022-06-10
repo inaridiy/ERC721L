@@ -11,7 +11,7 @@ contract Sample is ERC721Loanable {
 
     constructor() ERC721Loanable("Sample ERC721Loanable Token", "SET") {}
 
-    function freeMint() public returns (uint256) {
+    function mint() public returns (uint256) {
         uint256 newItemId = _tokenIds.current();
         _mint(_msgSender(), newItemId);
         _tokenIds.increment();

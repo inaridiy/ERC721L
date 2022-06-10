@@ -3,6 +3,7 @@
 pragma solidity ^0.8.4;
 
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
+import "hardhat/console.sol";
 
 /**
  * @title ERC-721 Non-Fungible Token Standard, optional Loanable extension.
@@ -86,7 +87,7 @@ abstract contract ERC721Loanable is ERC721 {
     ) internal override {
         super._beforeTokenTransfer(from, to, tokenId);
         require(
-            _tokenIdToLending[tokenId].borrower != from,
+            _tokenIdToLending[tokenId].borrower != from || address(0) == from,
             "ERC721Loanable: transfer caller is not true owner"
         );
     }
