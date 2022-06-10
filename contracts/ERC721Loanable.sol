@@ -72,6 +72,7 @@ abstract contract ERC721Loanable is ERC721 {
             lending.deadline < block.timestamp,
             "ERC721Loanable: token is during the lease period"
         );
+        delete _tokenIdToLending[tokenId];
         _safeTransfer(lending.borrower, lending.trueOwner, tokenId, "");
     }
 
