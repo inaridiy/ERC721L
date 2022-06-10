@@ -1,0 +1,36 @@
+name: penta-token-test
+on: [push]
+jobs:
+  basic-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: "14.x"
+          cache: npm
+      - run: npm install
+      - run: npx hardhat compile
+      - run: npm test
+      - run: npx hardhat coverage
+      - uses: actions/upload-artifact@v3
+        with:
+          name: coverage
+          path: coverage
+      - name: Upload Unit Test Results
+        if: ${{ always() }}
+        uses: actions/upload-artifact@v2
+        with:
+          name: Unit Test Results
+          path: results/*.xml
+
+      - name: Download Artifacts
+        if: success() || failure()
+        uses: actions/download-artifact@v2
+        with:
+          path: artifacts
+
+      - name: Publish Unit Test Results
+        uses: EnricoMi/publish-unit-test-result-action@v1
+        with:
+          files: artifacts/**/*.xml
