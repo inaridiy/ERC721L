@@ -1,5 +1,26 @@
 {
-  "name": "hardhat-project",
+  "name": "@inaridiy/erc721l",
+  "description": "ERC-721 Non-Fungible Token Standard, optional Loanable extension.",
+  "files": [
+    "/contracts/**/*.sol"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/inaridiy/erc721l"
+  },
+  "keywords": [
+    "solidity",
+    "ethereum",
+    "smart",
+    "contracts",
+    "erc721"
+  ],
+  "author": "inaridiy <https://twitter.com/unknown_gakusei>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/inaridiy/erc721l/issues"
+  },
+  "homepage": "https://github.com/inaridiy/erc721l",
   "devDependencies": {
     "@nomiclabs/hardhat-ethers": "^2.0.0",
     "@nomiclabs/hardhat-etherscan": "^3.0.0",
