@@ -31,8 +31,17 @@ abstract contract ERC721Loanable is ERC721 {
     // Mapping from token ID to Lending infomation.
     mapping(uint256 => Lending) private _tokenIdToLending;
 
-    function lendingInfo(uint256 tokenId) public view returns (Lending memory) {
-        return _tokenIdToLending[tokenId];
+    function lendingInfo(uint256 tokenId)
+        public
+        view
+        returns (
+            address owner,
+            address borrower,
+            uint256 deadline
+        )
+    {
+        Lending memory info = _tokenIdToLending[tokenId];
+        return (info.trueOwner, info.borrower, info.deadline);
     }
 
     /**

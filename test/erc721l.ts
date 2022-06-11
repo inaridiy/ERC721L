@@ -127,7 +127,7 @@ describe("ERC721Loanable", function () {
   it("testing get lending info", async () => {
     const instance = await deployContract();
     const {
-      addrs: [addr1, addr2, addr3],
+      addrs: [addr1, addr2],
     } = await getSigners();
     await instance.connect(addr1).mint();
     await instance.connect(addr1).lend(addr2.address, 0, BASE_PERIOD);
@@ -135,7 +135,6 @@ describe("ERC721Loanable", function () {
     expect(await instance.lendingInfo(0)).to.eql([
       addr1.address,
       addr2.address,
-      ZERO,
       BASE_PERIOD.add(timestamp),
     ]);
   });
