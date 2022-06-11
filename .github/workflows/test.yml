@@ -12,7 +12,7 @@ jobs:
       - run: npm install
       - run: npx hardhat compile
       - run: npm test
-      - run: npx hardhat coverage
+      - run: npx cross-env PEPORT_XML=true hardhat coverage
       - uses: actions/upload-artifact@v3
         with:
           name: coverage
@@ -20,5 +20,6 @@ jobs:
 
       - name: Publish Unit Test Results
         uses: EnricoMi/publish-unit-test-result-action@v1
+        if: always()
         with:
           files: coverage/*.xml
