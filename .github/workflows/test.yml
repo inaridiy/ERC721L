@@ -17,13 +17,8 @@ jobs:
         with:
           name: coverage
           path: coverage
-      - name: Download Artifacts
-        if: success() || failure()
-        uses: actions/download-artifact@v2
-        with:
-          path: artifacts
 
       - name: Publish Unit Test Results
         uses: EnricoMi/publish-unit-test-result-action@v1
         with:
-          files: artifacts/*.xml
+          files: coverage/*.xml
