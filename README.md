@@ -1,46 +1,74 @@
-# Advanced Sample Hardhat Project
+# ERC721Loanable
+Extension of ERC721 that allows borrowing and lending NFTs according to contract without trusting the other party.
 
-This project demonstrates an advanced Hardhat use case, integrating other tools commonly used alongside Hardhat in the ecosystem.
-
-The project comes with a sample contract, a test for that contract, a sample script that deploys that contract, and an example of a task implementation, which simply lists the available accounts. It also comes with a variety of other tools, preconfigured to work with the project code.
-
-Try running some of the following tasks:
-
-```shell
-npx hardhat accounts
-npx hardhat compile
-npx hardhat clean
-npx hardhat test
-npx hardhat node
-npx hardhat help
-REPORT_GAS=true npx hardhat test
-npx hardhat coverage
-npx hardhat run scripts/deploy.ts
-TS_NODE_FILES=true npx ts-node scripts/deploy.ts
-npx eslint '**/*.{js,ts}'
-npx eslint '**/*.{js,ts}' --fix
-npx prettier '**/*.{json,sol,md}' --check
-npx prettier '**/*.{json,sol,md}' --write
-npx solhint 'contracts/**/*.sol'
-npx solhint 'contracts/**/*.sol' --fix
+## Installation
+```bash
+npm install -save-dev @inaridiy/erc721l
 ```
 
-# Etherscan verification
+## Usage
+After installing the contract, you can use it by importing the contract.
+```solidity
+// SPDX-License-Identifier: MIT
+// Inaridiy ERC721Loanable Sample Contract v1.0.1
+pragma solidity ^0.8.4;
 
-To try out Etherscan verification, you first need to deploy a contract to an Ethereum network that's supported by Etherscan, such as Ropsten.
+import "./ERC721Loanable.sol";
+import "@openzeppelin/contracts/utils/Counters.sol";
 
-In this project, copy the .env.example file to a file named .env, and then edit it to fill in the details. Enter your Etherscan API key, your Ropsten node URL (eg from Alchemy), and the private key of the account which will send the deployment transaction. With a valid .env file in place, first deploy your contract:
+contract Sample is ERC721Loanable {
+    using Counters for Counters.Counter;
+    Counters.Counter private _tokenIds;
 
-```shell
-hardhat run --network ropsten scripts/deploy.ts
+    constructor() ERC721Loanable("Sample ERC721Loanable Token", "SET") {}
+
+    function mint() public returns (uint256) {
+        uint256 newItemId = _tokenIds.current();
+        _mint(_msgSender(), newItemId);
+        _tokenIds.increment();
+        return newItemId;
+    }
+}
 ```
 
-Then, copy the deployment address and paste it in to replace `DEPLOYED_CONTRACT_ADDRESS` in this command:
+## Added Methods
+The ERC721L adds three functions to the ERC721 to achieve NFT lending and borrowing.
 
-```shell
-npx hardhat verify --network ropsten DEPLOYED_CONTRACT_ADDRESS "Hello, Hardhat!"
+### lend
+Lend an NFT of `tokenId `to an address of `to` for `period` of time.
+You can rent out NFTs that you own and have not yet rented out.
+The borrower cannot transfer NFT.
+
+```solidity
+lend(address to,uint256 tokenId,uint256 period) public;
 ```
 
-# Performance optimizations
+### reclaim
+You can get back the NFT of a `tokenId` whose loan period has expired.
+You cannot reclaim an NFT that is still in the loan period.
 
-For faster runs of your tests and scripts, consider skipping ts-node's type checking by setting the environment variable `TS_NODE_TRANSPILE_ONLY` to `1` in hardhat's environment. For more details see [the documentation](https://hardhat.org/guides/typescript.html#performance-optimizations).
+```solidity
+reclaim(uint256 tokenId) public;
+```
+
+### lendingInfo
+Lending information for the NFT of `tokenId` can be obtained.
+※If not on loan, all information will be the initial values of Solidity.
+
+```solidity
+lendingInfo(uint256 tokenId) public view returns(address owner,address borrower,uint256 deadline)
+```
+
+## Local test run.
+```bash
+git clone git@github.com:inaridiy/ERC721L.git
+npm install
+npm run hardhat test
+```
+
+## License
+Distributed under the MIT License. See LICENSE.txt for more information.
+
+## Contact
+twitter: https://twitter.com/unknown_gakusei
+ens: inaridiy.eth
