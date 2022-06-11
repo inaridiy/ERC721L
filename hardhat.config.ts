@@ -38,6 +38,12 @@ const config: HardhatUserConfig = {
   etherscan: {
     apiKey: process.env.ETHERSCAN_API_KEY,
   },
+  mocha: {
+    reporter: process.env.PEPORT_XML && "mocha-junit-reporter",
+    reporterOptions: {
+      mochaFile: "./coverage/testResult.xml",
+    },
+  },
 };
 
 export default config;

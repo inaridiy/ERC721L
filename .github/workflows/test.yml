@@ -33,4 +33,4 @@ jobs:
       - name: Publish Unit Test Results
         uses: EnricoMi/publish-unit-test-result-action@v1
         with:
-          files: artifacts/**/*.xml
+          files: coverage/*.xml
