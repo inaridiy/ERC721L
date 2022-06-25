@@ -28,6 +28,14 @@ contract Sample is ERC721Loanable {
         _tokenIds.increment();
         return newItemId;
     }
+
+    function lend(
+        address to,
+        uint256 tokenId,
+        uint256 period
+    ) public {
+        _lend(to, tokenId, period);
+    }
 }
 ```
 
@@ -40,7 +48,7 @@ You can rent out NFTs that you own and have not yet rented out.
 The borrower cannot transfer NFT.
 
 ```solidity
-lend(address to,uint256 tokenId,uint256 period) public;
+_lend(address to,uint256 tokenId,uint256 period) internal;
 ```
 
 ### reclaim

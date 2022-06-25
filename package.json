@@ -1,6 +1,6 @@
 {
   "name": "@inaridiy/erc721l",
-  "version": "1.0.2",
+  "version": "1.1.1",
   "private": false,
   "description": "ERC-721 Non-Fungible Token Standard, optional Loanable extension.",
   "files": [
