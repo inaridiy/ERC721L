@@ -17,4 +17,12 @@ contract Sample is ERC721Loanable {
         _tokenIds.increment();
         return newItemId;
     }
+
+    function lend(
+        address to,
+        uint256 tokenId,
+        uint256 period
+    ) public {
+        _lend(to, tokenId, period);
+    }
 }

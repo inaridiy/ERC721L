@@ -47,11 +47,11 @@ abstract contract ERC721Loanable is ERC721 {
     /**
      * @dev Lend token ID token to `to` for a period of `period`.
      */
-    function lend(
+    function _lend(
         address to,
         uint256 tokenId,
         uint256 period
-    ) public virtual {
+    ) internal virtual {
         require(to != _msgSender(), "ERC721Loanable: Cannot lend to itself.");
         require(
             ownerOf(tokenId) == _msgSender() &&
