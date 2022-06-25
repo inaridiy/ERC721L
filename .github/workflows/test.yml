@@ -1,4 +1,4 @@
-name: penta-token-test
+name: erc721l-test
 on: [push]
 jobs:
   basic-test:
